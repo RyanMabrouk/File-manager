@@ -22,7 +22,25 @@ input[type=button]{
 label{
   cursor: pointer;
 }
-
+.points {
+  display: flex;
+  gap: 2px;
+}
+.point_archived, .point_starred {
+  display: none;
+  border-radius: 50%;
+  height: 8px;
+  position: relative;
+  right: 16px;
+  top: 23px;
+  width: 8px;
+}
+.point_archived {
+  background-color: #ca024f;
+}
+.point_starred {
+  background-color: #eaac30;
+}
 /*-----------nav--------------*/
 nav{
   display: flex;
@@ -403,7 +421,7 @@ input[type="file"] {
 
 
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1050px) {
   .layout{
     display: grid;
     grid-template-columns: [line1]30% [line2]auto;

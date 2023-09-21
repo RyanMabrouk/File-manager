@@ -96,6 +96,10 @@ document.getElementById("allFiles").addEventListener("click", function(){
         <td>
         <div class="tdDiv">
         <img id="${file.type}" src="${file.logo}" alt="">
+            <div class="points">
+            <div class="point_starred" id="point_starred${i}"></div>
+            <div class="point_archived" id="point_archived${i}"></div>
+            </div>
         <p>${file.name}</p>
         </div>
          </td>
@@ -121,9 +125,9 @@ document.getElementById("allFiles").addEventListener("click", function(){
         
     }
     document.getElementById("tableBody").innerHTML=table
+    upadetePoints()
 
 },false);
-
 
 /* starred files number */
 let nmbStarred = 0;
@@ -232,6 +236,35 @@ for (let i = 1; i < lastFileIndex; i++) {
     }
 }
 });
+/* points */
+    function upadetePoints(){
+        let lastFileIndex = JSON.parse(localStorage.getItem("lastFileIndex"))
+        if(!(lastFileIndex>1)){
+            lastFileIndex = 1;
+        }
+
+        for (let i = 1; i < lastFileIndex; i++) {
+            let fileName = "file"+i
+            let oldData = JSON.parse(localStorage.getItem(fileName));
+            if(oldData){
+            file=oldData;
+            if(file.archived && file.starred){
+                document.getElementById("point_archived"+i).style.display = "block" 
+                document.getElementById("point_starred"+i).style.display = "block"           
+            }
+            else if(file.archived){
+                document.getElementById("point_archived"+i).style.display = "block"
+                document.getElementById("point_starred"+i).style.display = "none"           
+            }
+            else if(file.starred){
+                document.getElementById("point_archived"+i).style.display = "none"
+                document.getElementById("point_starred"+i).style.display = "block"   
+            }
+            else{
+                document.getElementById("point_archived"+i).style.display = "none"
+                document.getElementById("point_starred"+i).style.display = "none"           
+            }
+        }}}   
 
 /* converts from bytes to kn,mb... */
 function niceBytes(a){let b=0,c=parseInt(a,10)||0;for(;1024<=c&&++b;)c/=1024;return c.toFixed(10>c&&0<b?1:0)+" "+["bytes","KB","MB","GB","TB","PB","EB","ZB","YB"][b]}
@@ -247,9 +280,11 @@ function flipStar(id,source){
         file.starred = !(file.starred)
         localStorage.setItem("file"+id, JSON.stringify(file));
         
-        console.log(file.starred)
         if(source != "allTable"){
             loadStarred() 
+        }
+        else{
+            upadetePoints()
         }
 
 
@@ -267,9 +302,11 @@ function flipArchive(id,source){
         file.archived = !(file.archived)
         localStorage.setItem("file"+id, JSON.stringify(file));
 
-        console.log(file.archived)
         if(source != "allTable"){
             loadArchive()
+        }
+        else{
+            upadetePoints()
         }
         
     }
