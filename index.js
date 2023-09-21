@@ -57,6 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let fileName = "file"+lastFileIndex
     lastFileIndex+=1
 
+    file.archived=false
+    file.starred=false
+    
     localStorage.setItem(fileName, JSON.stringify(file));
     localStorage.setItem("lastFileIndex", JSON.stringify(lastFileIndex));
 
