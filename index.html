@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+<body>
+    <!-- nav -->
+    <nav>
+        <img class="logo" src="assets/nav/logo.svg" alt="">
+        <div class="searchBar">
+            <img src="assets/nav/Search.svg" alt="">
+            <input type="text" placeholder="Search..">
+        </div>
+        <div class="end">
+            <a class="settings" href="">
+                <img  src="assets/nav/Settings.svg" alt="">
+            </a>
+            <a class="bell" href="">
+                <img  src="assets/nav/NotificationBell.svg" alt="">
+            </a>
+            <p>Hamza</p>
+            <img class="hamza" src="assets/nav/hamza-image.662c0caa14c7676b0f48.jpg" alt="">
+        </div>
+    </nav>
+    <div class="layout">
+    <!-- sideBar -->
+    <div class="sideBar">
+        <label for="uploadInput" class="upload" >
+            <img src="assets/files/Upload.svg" alt="">
+            <p>Upload</p>
+            <input type="file" id="uploadInput" />
+        </label>
+        <input type="file" id="uploadInput">
+            <ul>
+                <li>
+                    <img src="assets/files/home.svg" alt="">
+                    <a id="home" href="#">Home</a>
+                </li>
+                <li>
+                    <img src="assets/nav/FileStructure.svg" alt="">
+                    <a id="allFiles" href="#">All files</a>
+                </li>
+                <li>
+                    <img src="assets/files/Star.svg" alt="">
+                    <a id="starred" href="#">Starred</a>
+                </li>
+                <li>
+                    <img src="assets/files/box.svg" alt="">
+                    <a id="archived" href="#">Archived</a>
+                </li>
+            </ul>
+    </div>
+    <!-- main -->
+    <main id="main">
+        <!-- section 1 -->
+        <section class="section1">
+            <div class="divs" id="documents">
+                <div id="bgDoc">
+                <img src="assets/files/file.svg" alt="">
+                </div>
+                <p class="bigFont">documents</p>
+                <div>
+                <div id="myProgress">
+                    <div id="docBar" class="myBar"></div>
+                </div>
+            </div>
+            <div>
+                <strong id="doc%" class="bigFont"><!-- % will display here --></strong>
+                <p class="smallP" id="docBarText"><!-- size will display here --></p>
+            </div>
+        </div>
+            <div class="divs" id="images">
+                <div id="bgImg">
+                    <img src="assets/files/img.svg" alt="">
+                </div>
+                <p class="bigFont">images</p>
+                <div>
+                <div id="myProgress">
+                    <div id="imgBar" class="myBar"></div>
+                </div>
+                </div>
+                <div>
+                    <strong id="img%" class="bigFont"><!-- % will display here --></strong>
+                    <p class="smallP" id="imgBarText"><!-- size will display here --></p>
+                </div>
+        </div>
+            <div class="divs" id="videos">
+                <div id="bgVid">
+                <img src="assets/files/Vid.svg" alt="">
+                </div>
+                <p class="bigFont">videos</p>
+                <div>
+                <div id="myProgress">
+                    <div id="vidBar" class="myBar"></div>
+                  </div>
+                </div>
+                <div>
+                    <strong id="vid%" class="bigFont"><!-- % will display here --></strong>
+                    <p class="smallP" id="vidBarText"><!-- size will display here --></p>
+                </div>
+        </div>
+        </section>
+        <!-- section 2 -->
+        <section class="section2">
+        <div>
+            <h1>Recent Files</h1>
+            <table  class="styled-table">
+                <thead>
+                    <th>Name</th>
+                    <th>Date Created</th>
+                    <th>Size</th>
+                </thead>
+                <tbody id="recent">
+                    <!-- files will display here-->
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="divs2">
+                <div class="bgStar">
+                    <img src="assets/files/Star.svg" alt="">
+                </div>
+                <div>
+                <p class="bigFont" id="nmbStarred"></p>
+                <label for="starredView">
+                    <div  class="goToView">Go to view</div>
+                </label>
+                <input type="button" id="starredView">
+                </div>
+            </div>
+            <div class="divs2">
+                <div class="bgArchive">
+                     <img src="assets/files/box.svg" alt="">
+                </div>
+                <div>
+                <p class="bigFont" id="nmbArchived"></p>
+                <label for="archivedView">
+                    <div  class="goToView">Go to view</div>
+                </label>
+                <input type="button" id="archivedView">
+                </div>
+            </div>
+        </div>
+    </section>
+    </main>
+    <!------------Main Table--------------->
+    <div id="mainTable">
+        <div class="mainDiv">
+        <header>
+            <div id="bg">
+                <img id="tableBgImg" src="" alt="">
+            </div>
+            <h1 id="tableName"></h1>
+        </header>
+        <select id="options">
+            <option value="name">Name</option>
+            <option value="size">Size</option>
+            <option value="date">Date</option>
+        </select>
+        </div>
+        <table  class="styled-table">
+            <thead>
+                <th>Name</th>
+                <th>Date Created</th>
+                <th>Size</th>
+                <th>Actions</th>
+            </thead>
+            <tbody id="tableBody">
+                <!-- files will display here-->
+            </tbody>
+        </table>
+    </div>
+    </div>
+</body>
+</html>
