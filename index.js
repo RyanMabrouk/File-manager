@@ -74,62 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*-------------page----------------*/
 document.getElementById("home").addEventListener("click", function(){
-    document.getElementById("mainTable").style.display = 'none';
-    document.getElementById("main").style.display = 'block';
+    location.reload()
 },false);
 
 /* All files */
 document.getElementById("allFiles").addEventListener("click", function(){
-    /*loading UI*/
-    document.getElementById("tableName").innerText= "All Files"
-    document.getElementById("tableBgImg").src ="assets/nav/FileStructure.svg"
-    document.getElementById("bg").style.backgroundColor="#005bd4"
-    document.getElementById("main").style.display = 'none';
-    document.getElementById("mainTable").style.display = 'block';
-
-    /*loading table*/
-    let table=``
-    for (let i = 1; i < lastFileIndex; i++) {
-    let fileName = "file"+i
-    let oldData = JSON.parse(localStorage.getItem(fileName));
-    if(oldData){
-        file=oldData;
-        table += `
-        <tr>
-        <td>
-        <div class="tdDiv">
-        <img id="${file.type}" src="${file.logo}" alt="">
-            <div class="points">
-            <div class="point_starred" id="point_starred${i}"></div>
-            <div class="point_archived" id="point_archived${i}"></div>
-            </div>
-        <p>${file.name}</p>
-        </div>
-         </td>
-         <td><p>${file.date}</p></td>
-         <td><p>${niceBytes(file.size)}</p></td>
-         <td>
-            <label for="addToStarred${i}">
-                <div class="bgStar">
-                    <img src="assets/files/Star.svg" alt="">
-                </div>
-            </label>
-            <input type="button" id="addToStarred${i}" onclick="flipStar(${i},'allTable')">
-            
-            <label for="addToArchived${i}">
-            <div class="bgArchive">
-                <img src="assets/files/box.svg" alt="">
-            </div>
-            <input type="button" id="addToArchived${i}" onclick="flipArchive(${i},'allTable')">
-         </td> 
-        </tr>
-        `
-        }
-        
-    }
-    document.getElementById("tableBody").innerHTML=table
-    upadetePoints()
-
+    loadAllFiles()
 },false);
 
 /* starred files number */
@@ -237,8 +187,35 @@ for (let i = 1; i < lastFileIndex; i++) {
         document.getElementById("vid%").innerText=(Math.floor((size.vid/1024)/maxVid*100))+"%"
         document.getElementById("vidBarText").innerText=niceBytes(size.vid)+" of "+niceBytes(maxVid*1024)+" used"
     }
+
+    /* Sort */
+    document.getElementById("options").addEventListener("change", function(){
+        console.log("click")
+        sortFiles(document.getElementById("options").value), false
+    }); 
+
 }
+
+    /* List */
+    document.getElementById("listBtn").addEventListener("click", function(){
+        let display = document.getElementById("list").style.display
+        if(display == "none"){
+            document.getElementById("list").style.display = "flex"
+            document.getElementById("list").innerHTML =   document.getElementById("sideBar").innerHTML
+
+        }
+        else{
+            document.getElementById("list").style.display = "none"
+        }
+    })
+
 });
+
+
+
+
+
+
 /* points */
     function upadetePoints(){
         let lastFileIndex = JSON.parse(localStorage.getItem("lastFileIndex"))
@@ -315,7 +292,7 @@ function flipArchive(id,source){
     }
 }
 
-/* -------------loading------------- */
+/* -------------loading archived------------- */
 function loadArchive(){
     document.getElementById("tableName").innerText= "Archived Files"
     document.getElementById("tableBgImg").src ="assets/files/box.svg"
@@ -359,7 +336,7 @@ function loadArchive(){
     document.getElementById("tableBody").innerHTML=table
 }
 
-/* -------------loading------------- */
+/* -------------loading starred------------- */
 function loadStarred(){
     document.getElementById("tableName").innerText= "Starred Files"
     document.getElementById("tableBgImg").src ="assets/files/star.svg"
@@ -403,4 +380,99 @@ function loadStarred(){
     }}
     document.getElementById("tableBody").innerHTML=table
 }
+/* -------------loading all files----------------- */
+function loadAllFiles(){
+        /*loading UI*/
+        document.getElementById("tableName").innerText= "All Files"
+        document.getElementById("tableBgImg").src ="assets/nav/FileStructure.svg"
+        document.getElementById("bg").style.backgroundColor="#005bd4"
+        document.getElementById("main").style.display = 'none';
+        document.getElementById("mainTable").style.display = 'block';
+    
+        let lastFileIndex = JSON.parse(localStorage.getItem("lastFileIndex"))
+        if(!(lastFileIndex>1)){
+            lastFileIndex = 1;
+        }
 
+        /*loading table*/
+        let table=``
+        for (let i = 1; i < lastFileIndex; i++) {
+        let fileName = "file"+i
+        let oldData = JSON.parse(localStorage.getItem(fileName));
+        if(oldData){
+            file=oldData;
+            table += `
+            <tr>
+            <td>
+            <div class="tdDiv">
+            <img id="${file.type}" src="${file.logo}" alt="">
+                <div class="points">
+                <div class="point_starred" id="point_starred${i}"></div>
+                <div class="point_archived" id="point_archived${i}"></div>
+                </div>
+            <p>${file.name}</p>
+            </div>
+             </td>
+             <td><p>${file.date}</p></td>
+             <td><p>${niceBytes(file.size)}</p></td>
+             <td>
+                <label for="addToStarred${i}">
+                    <div class="bgStar">
+                        <img src="assets/files/Star.svg" alt="">
+                    </div>
+                </label>
+                <input type="button" id="addToStarred${i}" onclick="flipStar(${i},'allTable')">
+                
+                <label for="addToArchived${i}">
+                <div class="bgArchive">
+                    <img src="assets/files/box.svg" alt="">
+                </div>
+                <input type="button" id="addToArchived${i}" onclick="flipArchive(${i},'allTable')">
+             </td> 
+            </tr>
+            `
+            }
+            
+        }
+        document.getElementById("tableBody").innerHTML=table
+        upadetePoints()
+    
+}
+/* sort files */
+function sortFiles(index){
+
+    let lastFileIndex = JSON.parse(localStorage.getItem("lastFileIndex"))
+    if(!(lastFileIndex>1)){
+        lastFileIndex = 1;
+    }
+    
+    let files =[]
+    for (let i = 1; i < lastFileIndex; i++) {
+        let fileName = "file"+i
+        let oldData = JSON.parse(localStorage.getItem(fileName));
+        if(oldData){
+            files.push(oldData);
+    } 
+}
+        if(index == "name"){
+            files.sort((a, b) => a.name.localeCompare(b.name))
+        }
+        else if(index == "date"){
+            files.sort(function(a,b){return a.date - b.date});
+        }
+        else if(index == "size"){
+            files = files.sort((a,b) => {return a.size-b.size})
+        }
+
+        let i=1
+            files.forEach(function(file){
+                let fileName = "file"+i
+                console.log(fileName)
+                localStorage.setItem(fileName, JSON.stringify(file));
+                i++
+                if(i>lastFileIndex){
+                    files=[]
+                }
+            })
+        loadAllFiles()}
+    
